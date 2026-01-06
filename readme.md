@@ -1,0 +1,1 @@
+Este sistema ayuda a tener un control de los insumos de distintos tipos de negocios

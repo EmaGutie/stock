@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Usuario</title>
+</head>
+<body>
+<div class="container mt-3">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ 'danger' if category == 'error' else category }} alert-dismissible fade show" role="alert" style="margin-bottom: 20px; padding: 15px; border: 1px solid transparent; border-radius: 4px; color: #721c24; background-color: #f8d7da; border-color: #f5c6cb;">
+        <strong>Aviso:</strong> {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+    <h2>Crear Nuevo Usuario</h2>
+    <form method="POST">
+        <label for="nombre_usuario">Nombre de Usuario:</label>
+        <input type="text" id="nombre_usuario" name="nombre_usuario" required><br><br>
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" id="contrasena" name="contrasena" required><br><br>
+        <label for="confirmar_contrasena">Confirmar Contraseña:</label>
+        <input type="password" id="confirmar_contrasena" name="confirmar_contrasena" required><br><br>
+        <button type="submit">Crear Usuario</button>
+        <a href="{{ url_for('home') }}" class="btn btn-outline-secondary" type="button">Volver al Inicio</a>
+        
+    </form>
+</body>
+</html>
