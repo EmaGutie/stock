@@ -5,7 +5,9 @@ from flask import Flask, render_template, jsonify
 class Producto(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre_producto = db.Column(db.String(100), unique=True, nullable=False)
-    cantidad = db.Column(db.Integer, nullable=False)
+    cantidad = db.Column(db.Integer, nullable=False, default=0)
+    precio = db.Column(db.Float, nullable=False, default=0.0)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
 
     def __repr__(self):
         return f'<Producto {self.nombre_producto} - Cantidad: {self.cantidad}>'

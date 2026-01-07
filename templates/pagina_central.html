@@ -12,5 +12,51 @@
         <hr>
         <a href="{{ url_for('home') }}" class="btn btn-danger" type="button">Cerrar Sesión</a>
     </div>
+    <div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Inventario de Productos</h2>
+        <a href="{{ url_for('productos.subir_producto') }}" class="btn btn-primary">+ Cargar Producto</a>
+    </div>
+
+    <table class="table table-hover shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Stock</th>
+                <th>Precio Unitario</th>
+                <th>Valor Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in productos %}
+            <tr>
+                <td>{{ p.nombre }}</td>
+                <td>
+                    <span class="badge {{ 'bg-danger' if p.cantidad < 5 else 'bg-success' }}">
+                        {{ p.cantidad }}
+                    </span>
+                </td>
+                <td>${{ "{:,.2f}".format(p.precio).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                <td>${{ "{:,.2f}".format(p.cantidad * p.precio).replace(",", "X").replace(".", ",").replace("X", ".") }}</td>
+                <td>
+                    <a href="{{ url_for('productos.editar_producto', id=p.id) }}" class="btn btn-sm btn-warning">
+                        Editar
+                    </a>
+                    <a href="{{ url_for('productos.eliminar_producto', id=p.id) }}" 
+                    class="btn btn-sm btn-danger" 
+                    onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?')">
+                    Eliminar
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5" class="text-center">No hay productos cargados aún.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

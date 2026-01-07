@@ -4,12 +4,14 @@ from models.producto import Producto
 from models.usuario import Usuario
 from routes.crear_usuario import crear_usuario_bp
 from routes.login import login_bp
+from routes.productos import productos_bp
 
 app = Flask(__name__)
 app.secret_key = 'mi_clave_secreta_pizzas_123'
 
 app.register_blueprint(crear_usuario_bp)
 app.register_blueprint(login_bp)
+app.register_blueprint(productos_bp)
 
 app.config.from_object('config.config.Config')
 db.init_app(app)
@@ -30,7 +32,13 @@ def index():
 
 @app.route('/central')
 def dashboard():
-    return render_template('pagina_central.html')
+    if 'usuario_id' not in session:
+        return redirect(url_for('login.login'))
+    
+    # Buscamos solo los productos que pertenecen al usuario logueado
+    mis_productos = Producto.query.filter_by(usuario_id=session['usuario_id']).all()
+
+    return render_template('pagina_central.html', productos=mis_productos)
 
 
 
